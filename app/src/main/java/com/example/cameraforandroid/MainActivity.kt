@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private var mCamera: Camera? = null
     private var mPreview: CameraPreview? = null
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -54,6 +55,7 @@ class MainActivity : AppCompatActivity() {
             btnCamera.setOnClickListener {
                 btnCamera.visibility = View.GONE
                 frameLayout.background.alpha = 0
+                captureButton.visibility = View.VISIBLE
                 turnOnCamera()
             }
         }
@@ -104,10 +106,6 @@ class MainActivity : AppCompatActivity() {
         mCamera = null
     }
 
-    private fun startCamera() {
-        mCamera?.startPreview()
-    }
-
     override fun onPause() {
         super.onPause()
         releaseCamera() // release the camera immediately on pause event
@@ -115,7 +113,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        startCamera()
+        turnOnCamera()
     }
 
     /*
