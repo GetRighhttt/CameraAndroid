@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CameraForAndroid</string>
+    <string name="show_camera">Show Camera</string>
 </resources>
