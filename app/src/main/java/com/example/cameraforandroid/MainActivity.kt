@@ -9,6 +9,7 @@ import android.hardware.Camera
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import androidx.core.app.ActivityCompat
@@ -31,8 +32,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         /*
         Sets the window of the screen to fullscreen.
          */
@@ -43,38 +42,40 @@ class MainActivity : AppCompatActivity() {
         )
 
         /*
-        Keeps the screen on for demo purposes.
-         */
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-
-        /*
-        Another portion of using the camera. This below just gives the camera access.
-         */
-        mCamera = getCameraInstance()
-
-        mPreview = mCamera?.let {
-            // Create our Preview view
-            CameraPreview(this, it)
-        }
-
-        binding.apply {
-            btnCamera.setOnClickListener {
-                // Set the Preview view as the content of our activity.
-                mPreview?.also {
-                    val preview = frameLayout
-                    preview.addView(it)
-                }
-                frameLayout.alpha = 0f
-            }
-        }
-
-        /*
         Method call to request the permission when the activity starts.
          */
         requestPermissions()
+
+        binding.apply {
+            btnCamera.setOnClickListener {
+                btnCamera.visibility = View.GONE
+                frameLayout.background.alpha = 0
+                turnOnCamera()
+            }
+        }
+
+        setContentView(binding.root)
     }
 
+    private fun turnOnCamera() {
+        /*
+       Another portion of using the camera. This below just gives the camera access.
+       */
+        mCamera = getCameraInstance()
+        checkCameraHardware(this)
+
+        mPreview = mCamera?.let {
+            // Create our Preview view
+            CameraPreview(this@MainActivity, it)
+        }
+
+        binding.apply {
+            mPreview?.also {
+                val preview = frameLayout
+                preview.addView(it)
+            }
+        }
+    }
 
     /** Check if this device has a camera */
     private fun checkCameraHardware(context: Context): Boolean {

@@ -6,8 +6,8 @@
 <!--    First declare feature and permissions for camera in manifest.-->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature
-        android:name="android.hardware.camera.any"
-        android:required="true" />
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
