@@ -104,9 +104,18 @@ class MainActivity : AppCompatActivity() {
         mCamera = null
     }
 
+    private fun startCamera() {
+        mCamera?.startPreview()
+    }
+
     override fun onPause() {
         super.onPause()
         releaseCamera() // release the camera immediately on pause event
+    }
+
+    override fun onStart() {
+        super.onStart()
+        startCamera()
     }
 
     /*
